@@ -16,7 +16,9 @@ body{
   flex-direction:column;
   align-items:center;
 }
+
 .header{margin-top:30px;text-align:center;color:#333;padding:0 20px;}
+
 .container{
   margin-top:20px;
   background:white;
@@ -26,9 +28,12 @@ body{
   border-radius:22px;
   box-shadow:0 15px 40px rgba(0,0,0,0.15);
 }
+
 .title{text-align:center;margin-bottom:15px;font-size:26px;}
+
 .controls{display:flex;flex-direction:column;gap:10px;margin-bottom:15px;}
 .row{display:flex;gap:10px;flex-wrap:wrap;}
+
 input, select{
   padding:15px;
   border-radius:12px;
@@ -36,6 +41,7 @@ input, select{
   font-size:15px;
   flex:1;
 }
+
 button{
   padding:15px;
   border:none;
@@ -47,7 +53,9 @@ button{
   font-size:15px;
 }
 button:active{transform:scale(.97);}
+
 ul{list-style:none;margin:0;padding:0;}
+
 li{
   background:#fafafa;
   padding:14px;
@@ -57,12 +65,55 @@ li{
   justify-content:space-between;
   align-items:center;
 }
+
 .meta{font-size:12px;color:#777;}
 .completed span{text-decoration:line-through;color:#aaa;}
 .delete{background:#ff4757;}
 .stats{text-align:center;margin-top:10px;}
+
 footer{margin-top:auto;padding:20px;text-align:center;}
 
+/* Giriş ekranı */
+#welcome{
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:rgba(0,0,0,0.55);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+.welcome-box{
+  background:white;
+  padding:35px;
+  border-radius:20px;
+  width:80%;
+  max-width:350px;
+  text-align:center;
+  box-shadow:0 10px 40px rgba(0,0,0,0.2);
+  animation:fadeIn .6s ease;
+}
+@keyframes fadeIn{
+  from{opacity:0; transform:scale(0.8);}
+  to{opacity:1; transform:scale(1);}
+}
+
+.profile-select{
+  display:flex;
+  justify-content:space-around;
+  margin-top:20px;
+}
+.profile-btn{
+  background:#ff6b81;
+  padding:12px 20px;
+  border-radius:12px;
+  color:#fff;
+  cursor:pointer;
+  font-weight:600;
+}
+
+/* Lara kalp efekti */
 .heart-pop{
   position:fixed;
   font-size:30px;
@@ -70,7 +121,7 @@ footer{margin-top:auto;padding:20px;text-align:center;}
   pointer-events:none;
 }
 @keyframes pop{
-  0%{transform:scale(0.3) translateY(0);opacity:1;}
+  0%{transform:scale(.3) translateY(0);opacity:1;}
   100%{transform:scale(1.4) translateY(-80px);opacity:0;}
 }
 </style>
@@ -78,12 +129,25 @@ footer{margin-top:auto;padding:20px;text-align:center;}
 
 <body>
 
-<div class="header">
-<h1>💜 Lara & Mert</h1>
+<!-- PROFİL SEÇİMLİ GİRİŞ EKRANI -->
+<div id="welcome">
+  <div class="welcome-box">
+    <h2>Profil Seç</h2>
+    <p>Kiminle giriş yapıyorsun?</p>
+
+    <div class="profile-select">
+      <div class="profile-btn" onclick="selectProfile('Mert')">Mert</div>
+      <div class="profile-btn" onclick="selectProfile('Lara')">Lara</div>
+    </div>
+  </div>
+</div>
+
+<div class="header" id="header" style="display:none;">
+<h1 id="titleEmoji">💜 Lara & Mert</h1>
 <p>Birlikte yapılacaklar listesi</p>
 </div>
 
-<div class="container">
+<div class="container" id="main" style="display:none;">
 <div class="title">Etkinlik Ekle</div>
 
 <div class="controls">
@@ -105,7 +169,8 @@ footer{margin-top:auto;padding:20px;text-align:center;}
 <div class="stats" id="stats"></div>
 </div>
 
-<footer>Laracım seni çok seviyorum</footer>
+<footer id="footer" style="display:none;">Laracım seni çok seviyorum</footer>
+
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
@@ -125,36 +190,68 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
+let activeUser = null;
+
+/* -------- PROFİL GİRİŞİ -------- */
+window.selectProfile = function(user){
+  activeUser = user;
+
+  document.getElementById("welcome").style.display="none";
+  document.getElementById("header").style.display="block";
+  document.getElementById("main").style.display="block";
+  document.getElementById("footer").style.display="block";
+
+  document.getElementById("userSelect").value = user;
+
+  if(user === "Lara"){
+    document.getElementById("titleEmoji").innerHTML = "💗 Lara & Mert";
+    heartExplosion();
+  }
+};
+
+/* Baslangıç kalp patlaması */
+function heartExplosion(){
+  for(let i=0;i<30;i++){
+    let h = document.createElement("div");
+    h.className="heart-pop";
+    h.textContent="❤️";
+    h.style.left=(window.innerWidth/2)+"px";
+    h.style.top=(window.innerHeight/2)+"px";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),1000);
+  }
+}
+
 /* Bildirim izni */
 if ("Notification" in window) {
   Notification.requestPermission();
 }
 
-/* Lara görev eklemişse ekrana kalp çıkar */
-function heartPop() {
-  const h = document.createElement("div");
-  h.className = "heart-pop";
-  h.textContent = "❤️";
-  h.style.left = (window.innerWidth / 2 - 20) + "px";
-  h.style.top = (window.innerHeight / 2 - 20) + "px";
+/* Lara görev ekleyince tek kalp */
+function heartPop(){
+  const h=document.createElement("div");
+  h.className="heart-pop";
+  h.textContent="❤️";
+  h.style.left=(window.innerWidth/2)+"px";
+  h.style.top=(window.innerHeight/2)+"px";
   document.body.appendChild(h);
   setTimeout(()=>h.remove(),1000);
 }
 
-/* Görev yaklaşınca bildirim gönder */
+/* Yaklaşan görev bildirimi */
 function checkNotifications(tasks){
   const now = new Date();
 
   Object.values(tasks || {}).forEach(task=>{
     if(!task.date) return;
 
-    const diff = (new Date(task.date) - now) / (1000*60*60*24);
+    let diff = (new Date(task.date) - now)/(1000*60*60*24);
 
-    if(diff <= 1 && diff > 0){   // 24 saat kaldıysa
-      if(Notification.permission === "granted"){
-        new Notification("Yaklaşan Görev", {
-          body: `${task.text} (${task.user}) yarın!`,
-          icon: "https://cdn-icons-png.flaticon.com/512/833/833472.png"
+    if(diff <= 1 && diff > 0){
+      if(Notification.permission==="granted"){
+        new Notification("Yaklaşan Görev",{
+          body:`${task.text} (${task.user}) yarın!`,
+          icon:"https://cdn-icons-png.flaticon.com/512/833/833472.png"
         });
       }
     }
@@ -167,54 +264,55 @@ document.getElementById("addBtn").onclick = () => {
   const user = document.getElementById("userSelect").value;
   const date = document.getElementById("dateInput").value;
 
-  if (!text) return;
+  if(!text) return;
 
-  const newRef = push(ref(db, "tasks"));
-  set(newRef, { text, user, date, done: false });
+  const newRef = push(ref(db,"tasks"));
+  set(newRef,{text,user,date,done:false});
 
-  if (user === "Lara") heartPop();  // Lara eklediyse kalp çıksın
+  if(user==="Lara") heartPop();
 
-  document.getElementById("taskInput").value = "";
+  document.getElementById("taskInput").value="";
 };
 
-/* Liste çizimi */
+/* Görevleri çiz */
 function render(tasks){
-  const list = document.getElementById("taskList");
-  const stats = document.getElementById("stats");
-  list.innerHTML = "";
+  const list=document.getElementById("taskList");
+  const stats=document.getElementById("stats");
 
-  let done = 0;
+  list.innerHTML="";
 
-  Object.entries(tasks || {}).forEach(([key, task])=>{
+  let done=0;
+
+  Object.entries(tasks || {}).forEach(([key,task])=>{
     if(task.done) done++;
 
-    const li = document.createElement("li");
+    const li=document.createElement("li");
 
-    const t = document.createElement("div");
-    t.className = "task";
+    const t=document.createElement("div");
+    t.className="task";
     if(task.done) t.classList.add("completed");
 
-    const name = document.createElement("span");
-    name.textContent = task.text;
+    const text=document.createElement("span");
+    text.textContent=task.text;
 
-    const meta = document.createElement("div");
-    meta.className = "meta";
-    meta.textContent = `Ekleyen: ${task.user} • Tarih: ${task.date || '—'}`;
+    const meta=document.createElement("div");
+    meta.className="meta";
+    meta.textContent=`Ekleyen: ${task.user} • Tarih: ${task.date || '—'}`;
 
-    t.appendChild(name);
+    t.appendChild(text);
     t.appendChild(meta);
 
-    const right = document.createElement("div");
+    const right=document.createElement("div");
 
-    const check = document.createElement("input");
-    check.type = "checkbox";
-    check.checked = task.done;
-    check.onclick = () => toggleTask(key);
+    const check=document.createElement("input");
+    check.type="checkbox";
+    check.checked=task.done;
+    check.onclick=()=>toggleTask(key);
 
-    const del = document.createElement("button");
-    del.textContent = "Sil";
-    del.className = "delete";
-    del.onclick = () => remove(ref(db,"tasks/"+key));
+    const del=document.createElement("button");
+    del.textContent="Sil";
+    del.className="delete";
+    del.onclick=()=>remove(ref(db,"tasks/"+key));
 
     right.appendChild(check);
     right.appendChild(del);
@@ -225,27 +323,29 @@ function render(tasks){
     list.appendChild(li);
   });
 
-  stats.textContent = `Toplam görev: ${Object.keys(tasks || {}).length} • Tamamlanan: ${done}`;
+  stats.textContent=`Toplam görev: ${Object.keys(tasks || {}).length} • Tamamlanan: ${done}`;
 
   checkNotifications(tasks);
 }
 
 /* Tamamlandı değişimi */
-function toggleTask(key) {
-  const doneRef = ref(db, "tasks/" + key + "/done");
-  get(doneRef).then(snap =>{
-    set(doneRef, !snap.val());
+function toggleTask(key){
+  const doneRef = ref(db,"tasks/"+key+"/done");
+  get(doneRef).then(snap=>{
+    set(doneRef,!snap.val());
   });
 }
 
-/* Firebase dinleyici */
-onValue(ref(db,"tasks"), snap => {
+/* Dinleyici */
+onValue(ref(db,"tasks"),snap=>{
   render(snap.val());
 });
 </script>
 
 </body>
 </html>
+
+
 
 
 
