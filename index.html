@@ -1,528 +1,211 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- güvenlik -->
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="referrer" content="no-referrer">
-
 <title>Lara & Mert Yapılacaklar</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-
-*{
-box-sizing:border-box;
-}
-
+*{box-sizing:border-box;margin:0;padding:0;}
 body{
-font-family:'Poppins',sans-serif;
-margin:0;
-min-height:100vh;
-background:linear-gradient(135deg,#ff9a9e,#fad0c4);
-display:flex;
-flex-direction:column;
-align-items:center;
-overflow-x:hidden;
+  font-family:'Poppins',sans-serif;
+  min-height:100vh;
+  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  overflow-x:hidden;
 }
 
 /* header */
+.header{margin-top:40px;text-align:center;color:#333;}
 
-.header{
-margin-top:40px;
-text-align:center;
-color:#333;
-}
-
-/* ana kutu */
-
+/* container */
 .container{
-margin-top:20px;
-background:white;
-width:520px;
-max-width:92%;
-padding:30px;
-border-radius:22px;
-box-shadow:0 20px 50px rgba(0,0,0,0.15);
+  margin-top:20px;
+  background:white;
+  width:520px;
+  max-width:95%;
+  padding:30px;
+  border-radius:22px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.15);
 }
 
-/* başlık */
+/* title */
+.title{font-size:28px;font-weight:600;text-align:center;margin-bottom:20px;}
 
-.title{
-font-size:28px;
-font-weight:600;
-text-align:center;
-margin-bottom:20px;
-}
-
-/* form */
-
-.controls{
-display:flex;
-flex-direction:column;
-gap:10px;
-margin-bottom:20px;
-}
-
-.row{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-}
-
-/* input */
-
-input,select{
-padding:12px;
-border-radius:10px;
-border:1px solid #ddd;
-font-size:14px;
-flex:1;
-}
-
-/* buton */
-
+/* controls */
+.controls{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+.row{display:flex;gap:10px;flex-wrap:wrap;}
+input, select{padding:12px;border-radius:10px;border:1px solid #ddd;font-size:14px;flex:1;}
 button{
-padding:12px 18px;
-border:none;
-border-radius:10px;
-background:#ff6b81;
-color:white;
-font-weight:600;
-cursor:pointer;
-transition:0.2s;
+  padding:12px 18px;
+  border:none;
+  border-radius:10px;
+  background:#ff6b81;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.2s;
 }
+button:hover{transform:scale(1.05);}
 
-button:hover{
-transform:scale(1.05);
-}
-
-/* liste */
-
-ul{
-list-style:none;
-padding:0;
-margin:0;
-}
-
-li{
-background:#fafafa;
-border-radius:12px;
-padding:12px;
-margin-bottom:10px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
-.task{
-display:flex;
-flex-direction:column;
-}
-
-.meta{
-font-size:12px;
-color:#777;
-}
-
-.completed span{
-text-decoration:line-through;
-color:#aaa;
-}
-
-.right{
-display:flex;
-align-items:center;
-gap:8px;
-}
-
-.delete{
-background:#ff4757;
-}
-
-/* sayaç */
-
-.stats{
-margin-top:15px;
-font-size:13px;
-color:#555;
-text-align:center;
-}
+/* task list */
+ul{list-style:none;padding:0;margin:0;}
+li{background:#fafafa;border-radius:12px;padding:12px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+.task{display:flex;flex-direction:column;}
+.meta{font-size:12px;color:#777;}
+.completed span{text-decoration:line-through;color:#aaa;}
+.right{display:flex;align-items:center;gap:8px;}
+.delete{background:#ff4757;}
+.stats{margin-top:15px;font-size:13px;color:#555;text-align:center;}
 
 /* footer */
+footer{margin-top:auto;padding:25px;font-size:14px;color:#333;}
 
-footer{
-margin-top:auto;
-padding:25px;
-font-size:14px;
-color:#333;
-}
-
-/* hoş geldin */
-
+/* welcome */
 .welcome{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.6);
-display:flex;
-align-items:center;
-justify-content:center;
-z-index:999;
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  background:rgba(0,0,0,0.6);
+  display:flex;align-items:center;justify-content:center;
+  z-index:999;
 }
-
 .welcome-box{
-background:white;
-padding:40px;
-border-radius:20px;
-text-align:center;
+  background:white;padding:40px;border-radius:20px;text-align:center;
+  max-width:90%;
 }
 
 /* kalpler */
-
-.heart{
-position:fixed;
-bottom:-20px;
-font-size:20px;
-animation:floatUp 6s linear infinite;
-opacity:0.7;
-}
-
-@keyframes floatUp{
-0%{
-transform:translateY(0);
-opacity:0.7;
-}
-100%{
-transform:translateY(-110vh);
-opacity:0;
-}
-}
+.heart{position:fixed;bottom:-20px;font-size:20px;animation:floatUp 6s linear infinite;opacity:0.7;}
+@keyframes floatUp{0%{transform:translateY(0);opacity:0.7;}100%{transform:translateY(-110vh);opacity:0;}}
 
 /* kalp patlaması */
+.burst{position:absolute;font-size:30px;animation:burst 1.2s ease forwards;}
+@keyframes burst{0%{transform:translate(0,0) scale(0.5);opacity:1;}100%{transform:translate(var(--x),var(--y)) scale(1.5);opacity:0;}}
 
-.explosion{
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-pointer-events:none;
-}
-
-.burst{
-position:absolute;
-font-size:30px;
-animation:burst 1.2s ease forwards;
-}
-
-@keyframes burst{
-
-0%{
-transform:translate(0,0) scale(0.5);
-opacity:1;
-}
-
-100%{
-transform:translate(var(--x),var(--y)) scale(1.5);
-opacity:0;
-}
-
-}
-
+/* responsive */
+@media (max-width:600px){.container{padding:20px;width:90%;}.title{font-size:24px;}input,select,button{font-size:13px;padding:10px;}footer{font-size:13px;padding:20px;}}
+@media (max-width:400px){.title{font-size:20px;}input,select,button{font-size:12px;padding:8px;}}
 </style>
 </head>
 
 <body>
 
-<!-- hoş geldin -->
-
+<!-- welcome -->
 <div class="welcome" id="welcome">
-
-<div class="welcome-box">
-
-<h2>Hoş geldin Lara ❤️</h2>
-
-<button onclick="startSite()">Siteye Gir</button>
-
-</div>
-
+  <div class="welcome-box">
+    <h2>Hoş geldin Sevgilim ❤️</h2>
+    <button onclick="startSite()">Siteye Gir</button>
+  </div>
 </div>
 
 <div class="header">
-
 <h1>💜 Lara & Mert</h1>
-
 <p>Birlikte yapılacaklar listesi</p>
-
 </div>
 
 <div class="container">
-
 <div class="title">Yapılacak Etkinlik Ekle</div>
-
 <div class="controls">
-
-<div class="row">
-
-<input id="taskInput" placeholder="Etkinlik yaz...">
-
-<select id="userSelect">
-
-<option value="Mert">Mert</option>
-
-<option value="Lara">Lara</option>
-
-</select>
-
+  <div class="row">
+    <input id="taskInput" placeholder="Etkinlik yaz...">
+    <select id="userSelect">
+      <option value="Mert">Mert</option>
+      <option value="Lara">Lara</option>
+    </select>
+  </div>
+  <div class="row">
+    <input type="date" id="dateInput">
+    <button onclick="addTask()">Ekle</button>
+  </div>
 </div>
-
-<div class="row">
-
-<input type="date" id="dateInput">
-
-<button onclick="addTask()">Ekle</button>
-
-</div>
-
-</div>
-
 <ul id="taskList"></ul>
-
 <div class="stats" id="stats"></div>
-
 </div>
 
-<footer>
-
-Laracım seni çok seviyorum
-
-</footer>
-
-<audio id="music" loop>
-
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6a1c9d5a57.mp3" type="audio/mpeg">
-
-</audio>
+<footer>Laracım seni çok seviyorum</footer>
 
 <script>
-
 /* site başlat */
-
 function startSite(){
-
-document.getElementById("welcome").style.display="none"
-
-document.getElementById("music").play()
-
-heartExplosion()
-
+  document.getElementById("welcome").style.display="none";
+  heartExplosion();
 }
 
 /* kalp patlaması */
-
 function heartExplosion(){
-
-for(let i=0;i<30;i++){
-
-let heart=document.createElement("div")
-
-heart.className="burst"
-
-heart.innerHTML="❤️"
-
-let angle=Math.random()*360
-
-let distance=200
-
-heart.style.setProperty("--x",Math.cos(angle)*distance+"px")
-
-heart.style.setProperty("--y",Math.sin(angle)*distance+"px")
-
-heart.style.position="fixed"
-
-heart.style.left="50%"
-
-heart.style.top="50%"
-
-document.body.appendChild(heart)
-
-setTimeout(()=>{
-
-heart.remove()
-
-},1200)
-
-}
-
+  for(let i=0;i<30;i++){
+    let heart=document.createElement("div");
+    heart.className="burst";
+    heart.innerHTML="❤️";
+    let angle=Math.random()*360;
+    let distance=200;
+    heart.style.setProperty("--x",Math.cos(angle)*distance+"px");
+    heart.style.setProperty("--y",Math.sin(angle)*distance+"px");
+    heart.style.position="fixed";
+    heart.style.left="50%";
+    heart.style.top="50%";
+    document.body.appendChild(heart);
+    setTimeout(()=>{heart.remove()},1200);
+  }
 }
 
 /* yükselen kalpler */
-
 function createHeart(){
-
-const heart=document.createElement("div")
-
-heart.className="heart"
-
-heart.innerHTML="❤️"
-
-heart.style.left=Math.random()*100+"vw"
-
-heart.style.fontSize=(10+Math.random()*20)+"px"
-
-document.body.appendChild(heart)
-
-setTimeout(()=>{
-
-heart.remove()
-
-},6000)
-
+  const heart=document.createElement("div");
+  heart.className="heart";
+  heart.innerHTML="❤️";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.fontSize=(10+Math.random()*20)+"px";
+  document.body.appendChild(heart);
+  setTimeout(()=>{heart.remove()},6000);
 }
-
-setInterval(createHeart,600)
+setInterval(createHeart,600);
 
 /* todo sistemi */
-
 let tasks = JSON.parse(localStorage.getItem('lm_tasks')) || [];
-
-function save(){
-
-localStorage.setItem('lm_tasks',JSON.stringify(tasks));
-
-}
-
+function save(){ localStorage.setItem('lm_tasks',JSON.stringify(tasks)); }
 function render(){
-
-const list=document.getElementById('taskList');
-
-const stats=document.getElementById('stats');
-
-list.innerHTML='';
-
-let done=0;
-
-tasks.forEach((task,index)=>{
-
-if(task.done) done++;
-
-const li=document.createElement('li');
-
-const taskDiv=document.createElement('div');
-
-taskDiv.className='task';
-
-if(task.done) taskDiv.classList.add('completed');
-
-const text=document.createElement('span');
-
-text.textContent=task.text;
-
-const meta=document.createElement('div');
-
-meta.className='meta';
-
-meta.textContent=`Ekleyen: ${task.user} • Tarih: ${task.date || '—'}`;
-
-taskDiv.appendChild(text);
-
-taskDiv.appendChild(meta);
-
-const right=document.createElement('div');
-
-right.className='right';
-
-const check=document.createElement('input');
-
-check.type='checkbox';
-
-check.checked=task.done;
-
-check.onchange=()=>toggleTask(index);
-
-const del=document.createElement('button');
-
-del.textContent='Sil';
-
-del.className='delete';
-
-del.onclick=()=>deleteTask(index);
-
-right.appendChild(check);
-
-right.appendChild(del);
-
-li.appendChild(taskDiv);
-
-li.appendChild(right);
-
-list.appendChild(li);
-
-});
-
-stats.textContent=`Toplam görev: ${tasks.length} • Tamamlanan: ${done}`;
-
+  const list=document.getElementById('taskList');
+  const stats=document.getElementById('stats');
+  list.innerHTML='';
+  let done=0;
+  tasks.forEach((task,index)=>{
+    if(task.done) done++;
+    const li=document.createElement('li');
+    const taskDiv=document.createElement('div');
+    taskDiv.className='task';
+    if(task.done) taskDiv.classList.add('completed');
+    const text=document.createElement('span');
+    text.textContent=task.text;
+    const meta=document.createElement('div');
+    meta.className='meta';
+    meta.textContent=`Ekleyen: ${task.user} • Tarih: ${task.date || '—'}`;
+    taskDiv.appendChild(text); taskDiv.appendChild(meta);
+    const right=document.createElement('div'); right.className='right';
+    const check=document.createElement('input'); check.type='checkbox';
+    check.checked=task.done; check.onchange=()=>toggleTask(index);
+    const del=document.createElement('button'); del.textContent='Sil';
+    del.className='delete'; del.onclick=()=>deleteTask(index);
+    right.appendChild(check); right.appendChild(del);
+    li.appendChild(taskDiv); li.appendChild(right);
+    list.appendChild(li);
+  });
+  stats.textContent=`Toplam görev: ${tasks.length} • Tamamlanan: ${done}`;
 }
-
 function addTask(){
-
-const text=document.getElementById('taskInput').value.trim();
-
-const user=document.getElementById('userSelect').value;
-
-const date=document.getElementById('dateInput').value;
-
-if(!text) return;
-
-tasks.push({
-
-text,
-
-user,
-
-date,
-
-done:false
-
-});
-
-document.getElementById('taskInput').value='';
-
-save();
-
-render();
-
+  const text=document.getElementById('taskInput').value.trim();
+  const user=document.getElementById('userSelect').value;
+  const date=document.getElementById('dateInput').value;
+  if(!text) return;
+  tasks.push({ text,user,date,done:false });
+  document.getElementById('taskInput').value='';
+  save(); render();
 }
-
-function toggleTask(index){
-
-tasks[index].done=!tasks[index].done;
-
-save();
-
+function toggleTask(index){ tasks[index].done=!tasks[index].done; save(); render(); }
+function deleteTask(index){ tasks.splice(index,1); save(); render(); }
 render();
-
-}
-
-function deleteTask(index){
-
-tasks.splice(index,1);
-
-save();
-
-render();
-
-}
-
-render()
-
 </script>
-
 </body>
 </html>
