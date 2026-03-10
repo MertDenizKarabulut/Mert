@@ -137,7 +137,9 @@ const db = getDatabase(app);
 function startSite(){
   heartExplosion();
   const welcome = document.getElementById("welcome");
-  welcome.remove(); // KESİNLİKLE ekrandan kaldır
+  if(welcome){
+    welcome.parentNode.removeChild(welcome); // artık her cihazda kalkar
+  }
 }
 
 /* kalp patlaması */
@@ -231,4 +233,5 @@ onValue(ref(db,'tasks'),snap=>{
 </script>
 </body>
 </html>
+
 
