@@ -3,64 +3,163 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lara & Mert ToDo</title>
-
+<title>Lara & Mert Yapılacaklar</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
 <style>
-html,body{margin:0;padding:0;height:100%;font-family:Poppins;background:linear-gradient(135deg,#ff9a9e,#fad0c4);}
-#welcome{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:flex;justify-content:center;align-items:center;z-index:999;}
-#welcomeBox{background:white;padding:40px;border-radius:20px;text-align:center;}
-.container{max-width:520px;margin:auto;margin-top:60px;background:white;padding:25px;border-radius:20px;box-shadow:0 20px 40px rgba(0,0,0,0.15);}
-h1{text-align:center;margin-bottom:20px;}
-.row{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
-input,select{padding:10px;border-radius:8px;border:1px solid #ddd;flex:1;}
-button{padding:10px 16px;border:none;border-radius:8px;background:#ff6b81;color:white;cursor:pointer;}
-ul{list-style:none;padding:0;}
-li{background:#f7f7f7;margin-bottom:10px;padding:10px;border-radius:10px;display:flex;justify-content:space-between;align-items:center;transition:0.3s;}
-.done{text-decoration:line-through;opacity:0.6;}
-.right{display:flex;gap:6px;align-items:center;}
+*{box-sizing:border-box;}
+body{
+font-family:'Poppins',sans-serif;
+margin:0;
+padding:0;
+min-height:100vh;
+background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+.header{
+margin-top:40px;
+text-align:center;
+color:#333;
+}
+.container{
+margin-top:20px;
+background:white;
+width:520px;
+max-width:92%;
+padding:30px;
+border-radius:22px;
+box-shadow:0 20px 50px rgba(0,0,0,0.15);
+}
+.title{
+font-size:28px;
+font-weight:600;
+text-align:center;
+margin-bottom:20px;
+}
+.controls{
+display:flex;
+flex-direction:column;
+gap:10px;
+margin-bottom:20px;
+}
+.row{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+input,select{
+padding:12px;
+border-radius:10px;
+border:1px solid #ddd;
+font-size:14px;
+flex:1;
+}
+button{
+padding:12px 18px;
+border:none;
+border-radius:10px;
+background:#ff6b81;
+color:white;
+font-weight:600;
+cursor:pointer;
+transition:0.2s;
+}
+button:hover{
+transform:scale(1.05);
+}
+ul{
+list-style:none;
+padding:0;
+margin:0;
+}
+li{
+background:#fafafa;
+border-radius:12px;
+padding:12px;
+margin-bottom:10px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+.task{
+display:flex;
+flex-direction:column;
+}
+.task span{
+font-size:15px;
+}
+.meta{
+font-size:12px;
+color:#777;
+}
+.completed span{
+text-decoration:line-through;
+color:#aaa;
+}
+.right{
+display:flex;
+align-items:center;
+gap:8px;
+}
+.delete{
+background:#ff4757;
+}
+.stats{
+margin-top:15px;
+font-size:13px;
+color:#555;
+text-align:center;
+}
+footer{
+margin-top:auto;
+padding:25px;
+font-size:14px;
+color:#333;
+text-align:center;
+}
 .upcoming{color:red;font-weight:600;}
-
-/* Kalp animasyonu */
-.burst{position:absolute;font-size:30px;animation:burst 1.2s ease forwards;}
-@keyframes burst{0%{transform:translate(0,0) scale(0.5);opacity:1;}100%{transform:translate(var(--x),var(--y)) scale(1.5);opacity:0;}}
 </style>
 </head>
-
 <body>
 
-<div id="welcome">
-<div id="welcomeBox">
-<h2>Hoş geldin Sevgilim ❤️</h2>
-<button id="enterBtn">Siteye Gir</button>
-</div>
+<div class="header">
+<h1>💜 Lara & Mert</h1>
+<p>Birlikte yapılacaklar listesi</p>
 </div>
 
 <div class="container">
-<h1>Lara & Mert ❤️</h1>
+
+<div class="title">Yapılacak Etkinlik Ekle</div>
+
+<div class="controls">
 <div class="row">
-<input id="taskInput" placeholder="Etkinlik yaz">
+<input id="taskInput" placeholder="Etkinlik yaz...">
 <select id="userSelect">
 <option value="Mert">Mert</option>
 <option value="Lara">Lara</option>
 </select>
 </div>
+
 <div class="row">
 <input type="date" id="dateInput">
 <button id="addBtn">Ekle</button>
 </div>
-<ul id="taskList"></ul>
 </div>
 
-<footer style="text-align:center;margin-top:20px;padding:15px;">Laracım seni çok seviyorum</footer>
+<ul id="taskList"></ul>
+<div class="stats" id="stats"></div>
+
+</div>
+
+<footer>
+Laracım seni çok seviyorum
+</footer>
 
 <script type="module">
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
 import { getDatabase, ref, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
 
-// Firebase config
 const firebaseConfig = {
 apiKey: "AIzaSyAKIRNUmXwey9nddXFLhWpEfPK_C7pQgz0",
 authDomain: "mert-lara-todolist.firebaseapp.com",
@@ -74,106 +173,82 @@ appId: "1:928762008645:web:dc52035d52f1ce99f4ff2c"
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-/* siteye gir */
-document.getElementById("enterBtn").onclick = () => {
-document.getElementById("welcome").style.display="none";
-};
+const taskInput = document.getElementById("taskInput");
+const userSelect = document.getElementById("userSelect");
+const dateInput = document.getElementById("dateInput");
+const taskList = document.getElementById("taskList");
+const stats = document.getElementById("stats");
 
-/* görev ekleme */
 document.getElementById("addBtn").onclick = () => {
-
-const text = document.getElementById("taskInput").value.trim();
-const user = document.getElementById("userSelect").value;
-const date = document.getElementById("dateInput").value;
-
+const text = taskInput.value.trim();
+const user = userSelect.value;
+const date = dateInput.value;
 if(!text) return;
 
-// Firebase’e kaydet
 const newTaskRef = push(ref(db,"tasks"));
 newTaskRef.set({text,user,date,done:false});
 
-// Lara eklediyse kalp animasyonu
-if(user==="Lara") createHeartBurst();
-
-// Bildirim (opsiyonel)
-notifyTask(user,text,date);
-
-// inputları temizle
-document.getElementById("taskInput").value="";
-document.getElementById("dateInput").value="";
+taskInput.value="";
+dateInput.value="";
 };
 
-/* kalp patlaması */
-function createHeartBurst(){
-for(let i=0;i<20;i++){
-let heart=document.createElement("div");
-heart.className="burst";
-heart.innerHTML="❤️";
-let angle=Math.random()*360*Math.PI/180;
-let distance=200;
-heart.style.setProperty("--x",Math.cos(angle)*distance+"px");
-heart.style.setProperty("--y",Math.sin(angle)*distance+"px");
-heart.style.left="50%";
-heart.style.top="50%";
-document.body.appendChild(heart);
-setTimeout(()=>heart.remove(),1200);
-}
-}
-
-/* bildirim */
-function notifyTask(user,text,date){
-if(Notification.permission==="granted"){
-new Notification(user+" yeni görev ekledi!","Etkinlik: "+text+" Tarih: "+(date||"—"));
-}else if(Notification.permission!=="denied"){
-Notification.requestPermission();
-}
-}
-
-/* listeyi dinle ve yaklaşanları vurgula */
-onValue(ref(db,"tasks"), snapshot => {
-
-const list = document.getElementById("taskList");
-list.innerHTML="";
-
+onValue(ref(db,"tasks"), snapshot=>{
+taskList.innerHTML="";
 const data = snapshot.val();
+let doneCount = 0;
 if(!data) return;
 
 const today = new Date();
 
 Object.entries(data).forEach(([key,task])=>{
-const li = document.createElement("li");
-const left = document.createElement("div");
-left.innerHTML = "<b>"+task.text+"</b><br><small>"+task.user+" • "+(task.date || "")+"</small>";
+const li=document.createElement("li");
+const taskDiv=document.createElement("div");
+taskDiv.className="task";
 
-if(task.done) left.classList.add("done");
-
-/* yaklaşan tarih */
+if(task.done) taskDiv.classList.add("completed");
 if(task.date){
 const taskDate = new Date(task.date);
 const diff = (taskDate-today)/(1000*60*60*24);
-if(diff>=0 && diff<1) left.classList.add("upcoming");
+if(diff>=0 && diff<1) taskDiv.classList.add("upcoming");
 }
 
-const right = document.createElement("div"); right.className="right";
+const textSpan=document.createElement("span");
+textSpan.textContent=task.text;
+const metaDiv=document.createElement("div");
+metaDiv.className="meta";
+metaDiv.textContent=`Ekleyen: ${task.user} • Tarih: ${task.date || '—'}`;
+
+taskDiv.appendChild(textSpan);
+taskDiv.appendChild(metaDiv);
+
+const rightDiv=document.createElement("div");
+rightDiv.className="right";
 
 const check = document.createElement("input");
 check.type="checkbox"; check.checked=task.done;
 check.onchange=()=>update(ref(db,"tasks/"+key),{done:check.checked});
 
-const del = document.createElement("button"); del.innerText="Sil";
+const del = document.createElement("button");
+del.textContent="Sil"; del.className="delete";
 del.onclick=()=>remove(ref(db,"tasks/"+key));
 
-right.appendChild(check); right.appendChild(del);
-li.appendChild(left); li.appendChild(right);
-list.appendChild(li);
+rightDiv.appendChild(check);
+rightDiv.appendChild(del);
+
+li.appendChild(taskDiv);
+li.appendChild(rightDiv);
+taskList.appendChild(li);
+
+if(task.done) doneCount++;
 });
 
+stats.textContent=`Toplam görev: ${Object.keys(data).length} • Tamamlanan: ${doneCount}`;
 });
-
 </script>
 
 </body>
 </html>
+
 
 
 
