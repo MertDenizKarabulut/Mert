@@ -3,230 +3,173 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lara & Mert Yapılacaklar</title>
+<title>Lara & Mert ToDo</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
 <style>
-html, body{height:100%; width:100%; margin:0; padding:0;}
-*{box-sizing:border-box;}
-body{
-  font-family:'Poppins',sans-serif;
-  min-height:100vh;
-  width:100%;
-  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  overflow-x:hidden;
-}
-.header{margin-top:40px;text-align:center;color:#333;}
-.container{
-  margin-top:20px;
-  background:white;
-  width:520px;
-  max-width:95%;
-  padding:30px;
-  border-radius:22px;
-  box-shadow:0 20px 50px rgba(0,0,0,0.15);
-}
-.title{font-size:28px;font-weight:600;text-align:center;margin-bottom:20px;}
-.controls{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
-.row{display:flex;gap:10px;flex-wrap:wrap;}
-input, select{
-  padding:12px;
-  border-radius:10px;
-  border:1px solid #ddd;
-  font-size:14px;
-  flex:1;
-}
-input[type="date"]::-webkit-datetime-edit-text,
-input[type="date"]::-webkit-datetime-edit-month-field,
-input[type="date"]::-webkit-datetime-edit-day-field,
-input[type="date"]::-webkit-datetime-edit-year-field{
-  color:#555;
-}
-input::placeholder{color:#555;}
-button{padding:12px 18px;border:none;border-radius:10px;background:#ff6b81;color:white;font-weight:600;cursor:pointer;transition:0.2s;}
-button:hover{transform:scale(1.05);}
-ul{list-style:none;padding:0;margin:0;}
-li{background:#fafafa;border-radius:12px;padding:12px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
-.task{display:flex;flex-direction:column;}
-.meta{font-size:12px;color:#777;}
-.completed span{text-decoration:line-through;color:#aaa;}
-.right{display:flex;align-items:center;gap:8px;}
-.delete{background:#ff4757;}
-.stats{margin-top:15px;font-size:13px;color:#555;text-align:center;}
-footer{margin-top:auto;padding:25px;font-size:14px;color:#333;}
+html,body{margin:0;padding:0;height:100%;font-family:Poppins;background:linear-gradient(135deg,#ff9a9e,#fad0c4);}
+#welcome{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:flex;justify-content:center;align-items:center;z-index:999;}
+#welcomeBox{background:white;padding:40px;border-radius:20px;text-align:center;}
+.container{max-width:520px;margin:auto;margin-top:60px;background:white;padding:25px;border-radius:20px;box-shadow:0 20px 40px rgba(0,0,0,0.15);}
+h1{text-align:center;margin-bottom:20px;}
+.row{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
+input,select{padding:10px;border-radius:8px;border:1px solid #ddd;flex:1;}
+button{padding:10px 16px;border:none;border-radius:8px;background:#ff6b81;color:white;cursor:pointer;}
+ul{list-style:none;padding:0;}
+li{background:#f7f7f7;margin-bottom:10px;padding:10px;border-radius:10px;display:flex;justify-content:space-between;align-items:center;transition:0.3s;}
+.done{text-decoration:line-through;opacity:0.6;}
+.right{display:flex;gap:6px;align-items:center;}
+.upcoming{color:red;font-weight:600;}
 
-/* Hoş geldin kutucuğu */
-#welcome{
-  position:fixed;top:0;left:0;width:100%;height:100%;
-  background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:999;
-}
-#welcome-box{background:white;padding:40px;border-radius:20px;text-align:center;max-width:90%;}
-
-/* Kalp animasyonları */
-.heart{position:fixed;bottom:-20px;font-size:20px;animation:floatUp 6s linear infinite;opacity:0.7;}
-@keyframes floatUp{0%{transform:translateY(0);opacity:0.7;}100%{transform:translateY(-110vh);opacity:0;}}
+/* Kalp animasyonu */
 .burst{position:absolute;font-size:30px;animation:burst 1.2s ease forwards;}
 @keyframes burst{0%{transform:translate(0,0) scale(0.5);opacity:1;}100%{transform:translate(var(--x),var(--y)) scale(1.5);opacity:0;}}
-
-@media (max-width:600px){.container{padding:20px;width:90%;}.title{font-size:24px;}input,select,button{font-size:13px;padding:10px;}footer{font-size:13px;padding:20px;}}
-@media (max-width:400px){.title{font-size:20px;}input,select,button{font-size:12px;padding:8px;}}
 </style>
 </head>
+
 <body>
 
 <div id="welcome">
-  <div id="welcome-box">
-    <h2>Hoş geldin Sevgilim ❤️</h2>
-    <button id="enterBtn">Siteye Gir</button>
-  </div>
+<div id="welcomeBox">
+<h2>Hoş geldin Sevgilim ❤️</h2>
+<button id="enterBtn">Siteye Gir</button>
 </div>
-
-<div class="header">
-<h1>💜 Lara & Mert</h1>
-<p>Birlikte yapılacaklar listesi</p>
 </div>
 
 <div class="container">
-<div class="title">Yapılacak Etkinlik Ekle</div>
-<div class="controls">
-  <div class="row">
-    <input id="taskInput" placeholder="Etkinlik yaz...">
-    <select id="userSelect">
-      <option value="Mert">Mert</option>
-      <option value="Lara">Lara</option>
-    </select>
-  </div>
-  <div class="row">
-    <input type="date" id="dateInput" placeholder="Tarih ekle">
-    <button id="addBtn">Ekle</button>
-  </div>
+<h1>Lara & Mert ❤️</h1>
+<div class="row">
+<input id="taskInput" placeholder="Etkinlik yaz">
+<select id="userSelect">
+<option value="Mert">Mert</option>
+<option value="Lara">Lara</option>
+</select>
+</div>
+<div class="row">
+<input type="date" id="dateInput">
+<button id="addBtn">Ekle</button>
 </div>
 <ul id="taskList"></ul>
-<div class="stats" id="stats"></div>
 </div>
 
-<footer>Laracım seni çok seviyorum</footer>
+<footer style="text-align:center;margin-top:20px;padding:15px;">Laracım seni çok seviyorum</footer>
 
 <script type="module">
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-import { getDatabase, ref, push, set, onValue, remove } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
+import { getDatabase, ref, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAKIRNUmXwey9nddXFLhWpEfPK_C7pQgz0",
-  authDomain: "mert-lara-todolist.firebaseapp.com",
-  databaseURL: "https://mert-lara-todolist-default-rtdb.firebaseio.com",
-  projectId: "mert-lara-todolist",
-  storageBucket: "mert-lara-todolist.appspot.com",
-  messagingSenderId: "928762008645",
-  appId: "1:928762008645:web:dc52035d52f1ce99f4ff2c",
-  measurementId: "G-QSDTEGL8PB"
+apiKey: "AIzaSyAKIRNUmXwey9nddXFLhWpEfPK_C7pQgz0",
+authDomain: "mert-lara-todolist.firebaseapp.com",
+databaseURL: "https://mert-lara-todolist-default-rtdb.firebaseio.com",
+projectId: "mert-lara-todolist",
+storageBucket: "mert-lara-todolist.appspot.com",
+messagingSenderId: "928762008645",
+appId: "1:928762008645:web:dc52035d52f1ce99f4ff2c"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-/* site başlat */
-const welcome = document.getElementById("welcome");
-const enterBtn = document.getElementById("enterBtn");
-enterBtn.addEventListener("click",()=>{
-  document.body.style.overflow="auto"; // scroll aç
-  welcome.style.display="none"; // tamamen gizle
-  heartExplosion(); // kalp patlaması
-});
+/* siteye gir */
+document.getElementById("enterBtn").onclick = () => {
+document.getElementById("welcome").style.display="none";
+};
+
+/* görev ekleme */
+document.getElementById("addBtn").onclick = () => {
+
+const text = document.getElementById("taskInput").value.trim();
+const user = document.getElementById("userSelect").value;
+const date = document.getElementById("dateInput").value;
+
+if(!text) return;
+
+const newTaskRef = push(ref(db,"tasks"));
+newTaskRef.set({text,user,date,done:false});
+
+// Eğer Lara eklediyse kalp patlasın
+if(user==="Lara") createHeartBurst();
+
+notifyTask(user,text,date);
+
+document.getElementById("taskInput").value="";
+document.getElementById("dateInput").value="";
+};
 
 /* kalp patlaması */
-function heartExplosion(){
-  for(let i=0;i<30;i++){
-    let heart=document.createElement("div");
-    heart.className="burst";
-    heart.innerHTML="❤️";
-    let angle=Math.random()*360;
-    let distance=200;
-    heart.style.setProperty("--x",Math.cos(angle)*distance+"px");
-    heart.style.setProperty("--y",Math.sin(angle)*distance+"px");
-    heart.style.position="fixed";
-    heart.style.left="50%";
-    heart.style.top="50%";
-    document.body.appendChild(heart);
-    setTimeout(()=>{heart.remove()},1200);
-  }
+function createHeartBurst(){
+for(let i=0;i<20;i++){
+let heart=document.createElement("div");
+heart.className="burst";
+heart.innerHTML="❤️";
+let angle=Math.random()*360;
+let distance=200;
+heart.style.setProperty("--x",Math.cos(angle)*distance+"px");
+heart.style.setProperty("--y",Math.sin(angle)*distance+"px");
+heart.style.left="50%";
+heart.style.top="50%";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),1200);
+}
 }
 
-/* yükselen kalpler */
-function createHeart(){
-  const heart=document.createElement("div");
-  heart.className="heart";
-  heart.innerHTML="❤️";
-  heart.style.left=Math.random()*100+"vw";
-  heart.style.fontSize=(10+Math.random()*20)+"px";
-  document.body.appendChild(heart);
-  setTimeout(()=>{heart.remove()},6000);
+/* bildirim */
+function notifyTask(user,text,date){
+if(Notification.permission==="granted"){
+new Notification(user+" yeni görev ekledi!","Etkinlik: "+text+" Tarih: "+(date||"—"));
+}else if(Notification.permission!=="denied"){
+Notification.requestPermission();
 }
-setInterval(createHeart,600);
-
-/* render todo */
-function render(tasks){
-  const list=document.getElementById('taskList');
-  const stats=document.getElementById('stats');
-  list.innerHTML='';
-  let done=0;
-  Object.keys(tasks || {}).forEach(key=>{
-    const task = tasks[key];
-    if(task.done) done++;
-    const li=document.createElement('li');
-    const taskDiv=document.createElement('div');
-    taskDiv.className='task';
-    if(task.done) taskDiv.classList.add('completed');
-    const text=document.createElement('span');
-    text.textContent=task.text;
-    const meta=document.createElement('div');
-    meta.className='meta';
-    meta.textContent=`Ekleyen: ${task.user} • Tarih: ${task.date || '—'}`;
-    taskDiv.appendChild(text); taskDiv.appendChild(meta);
-    const right=document.createElement('div'); right.className='right';
-    const check=document.createElement('input'); check.type='checkbox';
-    check.checked=task.done; 
-    check.onchange=()=>toggleTask(key);
-    const del=document.createElement('button'); del.textContent='Sil';
-    del.className='delete'; del.onclick=()=>deleteTask(key);
-    right.appendChild(check); right.appendChild(del);
-    li.appendChild(taskDiv); li.appendChild(right);
-    list.appendChild(li);
-  });
-  stats.textContent=`Toplam görev: ${Object.keys(tasks || {}).length} • Tamamlanan: ${done}`;
 }
 
-/* add task */
-const addBtn = document.getElementById("addBtn");
-addBtn.addEventListener("click",()=>{
-  const text=document.getElementById('taskInput').value.trim();
-  const user=document.getElementById('userSelect').value;
-  const date=document.getElementById('dateInput').value;
-  if(!text) return;
-  const tasksRef = ref(db,'tasks');
-  push(tasksRef,{text,user,date,done:false});
-  document.getElementById('taskInput').value='';
+/* listeyi dinle ve yaklaşanları vurgula */
+onValue(ref(db,"tasks"), snapshot => {
+
+const list = document.getElementById("taskList");
+list.innerHTML="";
+
+const data = snapshot.val();
+if(!data) return;
+
+const today = new Date();
+
+Object.entries(data).forEach(([key,task])=>{
+const li = document.createElement("li");
+const left = document.createElement("div");
+left.innerHTML = "<b>"+task.text+"</b><br><small>"+task.user+" • "+(task.date || "")+"</small>";
+
+if(task.done) left.classList.add("done");
+
+/* yaklaşan tarih */
+if(task.date){
+const taskDate = new Date(task.date);
+const diff = (taskDate-today)/(1000*60*60*24);
+if(diff>=0 && diff<1) left.classList.add("upcoming");
+}
+
+const right = document.createElement("div"); right.className="right";
+
+const check = document.createElement("input");
+check.type="checkbox"; check.checked=task.done;
+check.onchange=()=>update(ref(db,"tasks/"+key),{done:check.checked});
+
+const del = document.createElement("button"); del.innerText="Sil";
+del.onclick=()=>remove(ref(db,"tasks/"+key));
+
+right.appendChild(check); right.appendChild(del);
+li.appendChild(left); li.appendChild(right);
+list.appendChild(li);
 });
 
-/* toggle done */
-function toggleTask(key){
-  const taskRef = ref(db, 'tasks/'+key+'/done');
-  get(taskRef).then(snap=>set(taskRef,!snap.val()));
-}
-
-/* delete task */
-function deleteTask(key){
-  remove(ref(db,'tasks/'+key));
-}
-
-/* realtime listener */
-onValue(ref(db,'tasks'),snap=>{
-  render(snap.val());
 });
+
 </script>
+
 </body>
 </html>
+
 
 
