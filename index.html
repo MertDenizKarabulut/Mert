@@ -60,6 +60,7 @@ li{background:#f7f7f7;margin-bottom:10px;padding:10px;border-radius:10px;display
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
 import { getDatabase, ref, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
 
+// Firebase config
 const firebaseConfig = {
 apiKey: "AIzaSyAKIRNUmXwey9nddXFLhWpEfPK_C7pQgz0",
 authDomain: "mert-lara-todolist.firebaseapp.com",
@@ -87,14 +88,17 @@ const date = document.getElementById("dateInput").value;
 
 if(!text) return;
 
+// Firebase’e kaydet
 const newTaskRef = push(ref(db,"tasks"));
 newTaskRef.set({text,user,date,done:false});
 
-// Eğer Lara eklediyse kalp patlasın
+// Lara eklediyse kalp animasyonu
 if(user==="Lara") createHeartBurst();
 
+// Bildirim (opsiyonel)
 notifyTask(user,text,date);
 
+// inputları temizle
 document.getElementById("taskInput").value="";
 document.getElementById("dateInput").value="";
 };
@@ -105,7 +109,7 @@ for(let i=0;i<20;i++){
 let heart=document.createElement("div");
 heart.className="burst";
 heart.innerHTML="❤️";
-let angle=Math.random()*360;
+let angle=Math.random()*360*Math.PI/180;
 let distance=200;
 heart.style.setProperty("--x",Math.cos(angle)*distance+"px");
 heart.style.setProperty("--y",Math.sin(angle)*distance+"px");
