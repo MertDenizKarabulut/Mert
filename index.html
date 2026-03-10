@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lara & Mert Yapılacaklar</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
 <style>
 html, body{height:100%; width:100%; margin:0; padding:0;}
 *{box-sizing:border-box;}
@@ -75,12 +74,11 @@ footer{margin-top:auto;padding:25px;font-size:14px;color:#333;}
 @media (max-width:400px){.title{font-size:20px;}input,select,button{font-size:12px;padding:8px;}}
 </style>
 </head>
-
 <body>
 
 <div id="welcome">
   <div id="welcome-box">
-    <h2>Hoş geldin Lara ❤️</h2>
+    <h2>Hoş geldin Sevgilim ❤️</h2>
     <button id="enterBtn">Siteye Gir</button>
   </div>
 </div>
@@ -102,7 +100,7 @@ footer{margin-top:auto;padding:25px;font-size:14px;color:#333;}
   </div>
   <div class="row">
     <input type="date" id="dateInput" placeholder="Tarih ekle">
-    <button onclick="addTask()">Ekle</button>
+    <button id="addBtn">Ekle</button>
   </div>
 </div>
 <ul id="taskList"></ul>
@@ -113,7 +111,7 @@ footer{margin-top:auto;padding:25px;font-size:14px;color:#333;}
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-import { getDatabase, ref, set, onValue, remove, get } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
+import { getDatabase, ref, push, set, onValue, remove } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAKIRNUmXwey9nddXFLhWpEfPK_C7pQgz0",
@@ -201,15 +199,16 @@ function render(tasks){
 }
 
 /* add task */
-function addTask(){
+const addBtn = document.getElementById("addBtn");
+addBtn.addEventListener("click",()=>{
   const text=document.getElementById('taskInput').value.trim();
   const user=document.getElementById('userSelect').value;
   const date=document.getElementById('dateInput').value;
   if(!text) return;
-  const newKey = ref(db, 'tasks/').push().key;
-  set(ref(db, 'tasks/'+newKey), {text,user,date,done:false});
+  const tasksRef = ref(db,'tasks');
+  push(tasksRef,{text,user,date,done:false});
   document.getElementById('taskInput').value='';
-}
+});
 
 /* toggle done */
 function toggleTask(key){
@@ -229,4 +228,5 @@ onValue(ref(db,'tasks'),snap=>{
 </script>
 </body>
 </html>
+
 
