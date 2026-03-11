@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lara & Mert Yapılacaklar</title>
-<link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap)" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -58,7 +58,7 @@ body:not(.dark) li{background:#fafafa;}
 footer{margin-top:auto;padding:20px;text-align:center;font-size:14px;}
 .toggle-dark{position:fixed;top:15px;right:20px;background:var(--accent);border:none;border-radius:50%;
 width:46px;height:46px;color:white;font-size:18px;cursor:pointer;}
-/* Giriş ekranı */
+
 #welcome{
   position:fixed;top:0;left:0;width:100%;height:100%;
   background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;
@@ -68,7 +68,7 @@ width:46px;height:46px;color:white;font-size:18px;cursor:pointer;}
   background:#fff;color:#333;padding:25px;border-radius:15px;width:90%;max-width:350px;
   box-shadow:0 5px 25px rgba(0,0,0,.3);text-align:center;
 }
-.login-box input{width:100%;margin-bottom:10px;padding:10px;border-radius:8px;border:1px solid #ccc;}
+.login-box input{width:100%;margin-bottom:10px;padding:10px;border-radius:8px;border:1px solid #ccc;box-sizing: border-box;}
 .login-box button{width:100%;}
 #loginMsg{min-height:18px;}
 .heart-pop{position:fixed;font-size:28px;animation:pop 1s ease-out forwards;pointer-events:none;}
@@ -87,7 +87,6 @@ width:46px;height:46px;color:white;font-size:18px;cursor:pointer;}
 
 <body>
 
-<!-- Şifreli giriş -->
 <div id="welcome">
   <div class="login-box">
     <h2>Giriş Yap</h2>
@@ -127,13 +126,14 @@ width:46px;height:46px;color:white;font-size:18px;cursor:pointer;}
 <footer>Laracım seni çok seviyorum 💖</footer>
 
 <script type="module">
-import { initializeApp } from "[gstatic.com](https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js)";
-import { getDatabase, ref, set, onValue, remove, get, push } from "[gstatic.com](https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js)";
+// Firebase Import Linkleri Düzeltildi
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+import { getDatabase, ref, set, onValue, remove, get, push } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAKIRNUmXwey9nddXFLhWpEfPK_C7pQgz0",
   authDomain: "mert-lara-todolist.firebaseapp.com",
-  databaseURL: "[mert-lara-todolist-default-rtdb.firebaseio.com](https://mert-lara-todolist-default-rtdb.firebaseio.com)",
+  databaseURL: "https://mert-lara-todolist-default-rtdb.firebaseio.com",
   projectId: "mert-lara-todolist",
   storageBucket: "mert-lara-todolist.appspot.com",
   messagingSenderId: "928762008645",
@@ -144,14 +144,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-let activeUser = "";
-const users = { "Lara":"060326", "Mert":"060326" };
-
-/* ---- GİRİŞ ---- */
+// Değişken Tanımları Teke İndirildi (SyntaxError Çözümü)
 let activeUser = "";
 const users = { "Lara": "060326", "Mert": "060326" };
 
-// Kod modül içinde olduğu için script yüklendikten sonra direkt çalışsın:
+/* ---- GİRİŞ ---- */
 const loginBtn = document.getElementById("loginBtn");
 
 if (loginBtn) {
@@ -160,13 +157,11 @@ if (loginBtn) {
     const p = document.getElementById("password").value.trim();
     const msg = document.getElementById("loginMsg");
 
-    // Giriş kontrolü
     if (users[u] && users[u] === p) {
-      // Ekranı kapat
       const welcome = document.getElementById("welcome");
       welcome.classList.add("fadeOut");
       setTimeout(() => {
-        welcome.remove(); // display none yerine tamamen kaldır
+        welcome.remove();
       }, 400);
 
       activeUser = u;
@@ -175,7 +170,6 @@ if (loginBtn) {
         document.getElementById("titleEmoji").innerHTML = "💗 Lara & Mert";
         heartExplosion();
       }
-
       msg.textContent = "";
     } else {
       msg.textContent = "Hatalı kullanıcı veya şifre!";
@@ -183,87 +177,99 @@ if (loginBtn) {
   });
 }
 
-
 /* ---- KARANLIK MOD ---- */
-const darkBtn=document.getElementById("darkBtn");
-darkBtn.onclick=()=>{
+const darkBtn = document.getElementById("darkBtn");
+darkBtn.onclick = () => {
   document.body.classList.toggle("dark");
-  darkBtn.textContent=document.body.classList.contains("dark")?"🌙":"☀️";
+  darkBtn.textContent = document.body.classList.contains("dark") ? "🌙" : "☀️";
 };
 
 /* ---- HEART EFFECT ---- */
 function heartExplosion(){
-  for(let i=0;i<25;i++){
-    let h=document.createElement("div");
-    h.className="heart-pop";
-    h.textContent="❤️";
-    h.style.left=(window.innerWidth/2)+"px";
-    h.style.top=(window.innerHeight/2)+"px";
+  for(let i=0; i<25; i++){
+    let h = document.createElement("div");
+    h.className = "heart-pop";
+    h.textContent = "❤️";
+    h.style.left = (window.innerWidth / 2) + "px";
+    h.style.top = (window.innerHeight / 2) + "px";
     document.body.appendChild(h);
-    setTimeout(()=>h.remove(),1000);
+    setTimeout(() => h.remove(), 1000);
   }
 }
 
 /* ---- GÖREV EKLE ---- */
-document.getElementById("addBtn").onclick=()=>{
-  const text=document.getElementById("taskInput").value.trim();
-  const user=document.getElementById("userSelect").value;
-  const date=document.getElementById("dateInput").value;
+document.getElementById("addBtn").onclick = () => {
+  const text = document.getElementById("taskInput").value.trim();
+  const user = document.getElementById("userSelect").value;
+  const date = document.getElementById("dateInput").value;
   if(!text) return;
-  const newRef=push(ref(db,"tasks"));
-  set(newRef,{text,user,date,done:false});
-  if(user==="Lara") heartExplosion();
-  document.getElementById("taskInput").value="";
+  const newRef = push(ref(db, "tasks"));
+  set(newRef, { text, user, date, done: false });
+  if(user === "Lara") heartExplosion();
+  document.getElementById("taskInput").value = "";
 };
 
 /* ---- GÖREVLER ---- */
 function render(tasks){
-  const list=document.getElementById("taskList");
-  const stats=document.getElementById("stats");
-  list.innerHTML="";
+  const list = document.getElementById("taskList");
+  const stats = document.getElementById("stats");
+  list.innerHTML = "";
 
-  const all=Object.entries(tasks||{}).map(([k,v])=>({key:k,...v}));
-  all.sort((a,b)=>{
+  const all = Object.entries(tasks || {}).map(([k, v]) => ({ key: k, ...v }));
+  all.sort((a, b) => {
     if(!a.date) return 1; if(!b.date) return -1;
-    return new Date(a.date)-new Date(b.date);
+    return new Date(a.date) - new Date(b.date);
   });
 
-  let done=0;
-  all.forEach(task=>{
-    if(task.done) done++;
-    const li=document.createElement("li");
-    const left=document.createElement("div");
-    left.className="task";
+  let doneCount = 0;
+  all.forEach(task => {
+    if(task.done) doneCount++;
+    const li = document.createElement("li");
+    const left = document.createElement("div");
+    left.className = "task";
     if(task.done) left.classList.add("completed");
-    const span=document.createElement("span");
-    span.textContent=task.text;
-    const meta=document.createElement("div");
-    meta.className="meta";
-    meta.textContent=`Ekleyen: ${task.user} • Tarih: ${task.date||"—"}`;
-    left.appendChild(span);left.appendChild(meta);
-    const right=document.createElement("div");
-    right.className="right";
-    const check=document.createElement("input");
-    check.type="checkbox";check.checked=task.done;
-    check.onclick=()=>toggleTask(task.key);
-    const del=document.createElement("button");
-    del.textContent="Sil";del.className="delete";
-    del.onclick=()=>remove(ref(db,"tasks/"+task.key));
-    right.appendChild(check);right.appendChild(del);
-    li.appendChild(left);li.appendChild(right);
+    
+    const span = document.createElement("span");
+    span.textContent = task.text;
+    
+    const meta = document.createElement("div");
+    meta.className = "meta";
+    meta.textContent = `Ekleyen: ${task.user} • Tarih: ${task.date || "—"}`;
+    
+    left.appendChild(span);
+    left.appendChild(meta);
+    
+    const right = document.createElement("div");
+    right.className = "right";
+    
+    const check = document.createElement("input");
+    check.type = "checkbox";
+    check.checked = task.done;
+    check.onclick = () => toggleTask(task.key, task.done);
+    
+    const del = document.createElement("button");
+    del.textContent = "Sil";
+    del.className = "delete";
+    del.onclick = () => remove(ref(db, "tasks/" + task.key));
+    
+    right.appendChild(check);
+    right.appendChild(del);
+    li.appendChild(left);
+    li.appendChild(right);
     list.appendChild(li);
   });
-  stats.textContent=`Toplam: ${all.length} | Tamamlanan: ${done}`;
+  stats.textContent = `Toplam: ${all.length} | Tamamlanan: ${doneCount}`;
 }
 
-function toggleTask(key){
-  const doneRef=ref(db,"tasks/"+key+"/done");
-  get(doneRef).then(snap=>set(doneRef,!snap.val()));
+function toggleTask(key, currentStatus){
+  set(ref(db, "tasks/" + key + "/done"), !currentStatus);
 }
-onValue(ref(db,"tasks"),snap=>render(snap.val()));
+
+onValue(ref(db, "tasks"), snap => render(snap.val()));
 </script>
 </body>
 </html>
+
 
 
 
