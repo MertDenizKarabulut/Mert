@@ -148,23 +148,41 @@ let activeUser = "";
 const users = { "Lara":"060326", "Mert":"060326" };
 
 /* ---- GİRİŞ ---- */
-window.addEventListener("DOMContentLoaded", ()=>{
-  const loginBtn=document.getElementById("loginBtn");
-  loginBtn.addEventListener("click", ()=>{
-    const u=document.getElementById("username").value.trim();
-    const p=document.getElementById("password").value.trim();
-    const msg=document.getElementById("loginMsg");
-    if(users[u] && users[u]===p){
-      document.getElementById("welcome").classList.add("fadeOut");
-      setTimeout(()=>{document.getElementById("welcome").style.display="none";},400);
-      activeUser=u;
-      if(u==="Lara"){
-        document.getElementById("titleEmoji").innerHTML="💗 Lara & Mert";
+let activeUser = "";
+const users = { "Lara": "060326", "Mert": "060326" };
+
+// Kod modül içinde olduğu için script yüklendikten sonra direkt çalışsın:
+const loginBtn = document.getElementById("loginBtn");
+
+if (loginBtn) {
+  loginBtn.addEventListener("click", () => {
+    const u = document.getElementById("username").value.trim();
+    const p = document.getElementById("password").value.trim();
+    const msg = document.getElementById("loginMsg");
+
+    // Giriş kontrolü
+    if (users[u] && users[u] === p) {
+      // Ekranı kapat
+      const welcome = document.getElementById("welcome");
+      welcome.classList.add("fadeOut");
+      setTimeout(() => {
+        welcome.remove(); // display none yerine tamamen kaldır
+      }, 400);
+
+      activeUser = u;
+
+      if (u === "Lara") {
+        document.getElementById("titleEmoji").innerHTML = "💗 Lara & Mert";
         heartExplosion();
       }
-    } else msg.textContent="Hatalı kullanıcı veya şifre!";
+
+      msg.textContent = "";
+    } else {
+      msg.textContent = "Hatalı kullanıcı veya şifre!";
+    }
   });
-});
+}
+
 
 /* ---- KARANLIK MOD ---- */
 const darkBtn=document.getElementById("darkBtn");
@@ -246,6 +264,7 @@ onValue(ref(db,"tasks"),snap=>render(snap.val()));
 </script>
 </body>
 </html>
+
 
 
 
