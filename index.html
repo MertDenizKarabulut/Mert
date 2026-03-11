@@ -147,21 +147,34 @@ const db = getDatabase(app);
 
 /* ---- GİRİŞ ---- */
 const users = {
-  "Lara":"060326"
+  "Lara":"060326",
   "Mert":"060326"
 };
 
+let activeUser = "";
+
 document.getElementById("loginBtn").onclick = ()=>{
-  const u=document.getElementById("username").value.trim();
-  const p=document.getElementById("password").value.trim();
-  if(users[u] && users[u]===p){
-    document.getElementById("welcome").style.display="none";
-    activeUser=u;
-    if(u==="Lara"){heartExplosion();document.getElementById("titleEmoji").innerHTML="💗 Lara & Mert";}
-  }else{
-    document.getElementById("loginMsg").textContent="Hatalı kullanıcı veya şifre!";
+  const u = document.getElementById("username").value.trim();
+  const p = document.getElementById("password").value.trim();
+  const msg = document.getElementById("loginMsg");
+
+  if(users[u] && users[u] === p){
+    // Başarılı giriş
+    document.getElementById("welcome").style.display = "none";
+    activeUser = u;
+
+    // Lara ise özel efekt
+    if(u === "Lara"){
+      document.getElementById("titleEmoji").innerHTML = "💗 Lara & Mert";
+      heartExplosion();
+    }
+
+    msg.textContent = "";
+  } else {
+    msg.textContent = "Hatalı kullanıcı veya şifre!";
   }
 };
+
 
 let activeUser="";
 
@@ -246,6 +259,7 @@ onValue(ref(db,"tasks"),snap=>render(snap.val()));
 </script>
 </body>
 </html>
+
 
 
 
