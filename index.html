@@ -9,53 +9,46 @@
 <style>
 :root{
   --bg: linear-gradient(135deg,#ff9a9e,#fad0c4);
-  --card-bg: white;
-  --text-color: #333;
+  --card-bg:white;
+  --text:#333;
   --accent:#ff6b81;
 }
 body.dark{
-  --bg: #121212;
-  --card-bg:#1E1E1E;
-  --text-color:#EEE;
+  --bg:#121212;
+  --card-bg:#1f1f1f;
+  --text:#eee;
   --accent:#ff99a4;
 }
-html, body{margin:0;padding:0;width:100%;height:100%;}
+html,body{margin:0;padding:0;width:100%;height:100%;}
 body{
   font-family:'Poppins',sans-serif;
-  min-height:100vh;
   background:var(--bg);
-  color:var(--text-color);
+  color:var(--text);
   display:flex;
   flex-direction:column;
   align-items:center;
+  min-height:100vh;
   transition:.3s background;
 }
 .header{margin-top:25px;text-align:center;}
 .container{
-  margin-top:20px;
-  background:var(--card-bg);
-  width:95%;
-  max-width:520px;
-  padding:20px;
-  border-radius:22px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.15);
+  margin-top:20px;background:var(--card-bg);width:95%;max-width:520px;
+  padding:20px;border-radius:22px;box-shadow:0 10px 30px rgba(0,0,0,0.15);
 }
-.title{text-align:center;margin-bottom:15px;font-size:24px;}
+.title{text-align:center;font-size:24px;margin-bottom:15px;}
 .controls{display:flex;flex-direction:column;gap:10px;margin-bottom:15px;}
 .row{display:flex;gap:10px;flex-wrap:wrap;}
-input, select{
+input,select{
   padding:12px;border-radius:10px;border:1px solid #ccc;font-size:15px;flex:1;outline:none;
 }
-button{
-  padding:12px 18px;border:none;border-radius:10px;
-  background:var(--accent);color:white;font-weight:600;cursor:pointer;font-size:15px;
-}
+button{padding:12px 18px;border:none;border-radius:10px;
+  background:var(--accent);color:white;font-weight:600;font-size:15px;cursor:pointer;}
 button:active{transform:scale(.97);}
 ul{list-style:none;margin:0;padding:0;}
 li{
   background:rgba(255,255,255,0.05);
-  padding:12px;margin-bottom:10px;
-  border-radius:12px;display:flex;justify-content:space-between;align-items:center;
+  padding:12px;margin-bottom:10px;border-radius:12px;
+  display:flex;justify-content:space-between;align-items:center;
 }
 body:not(.dark) li{background:#fafafa;}
 .meta{font-size:12px;color:#888;}
@@ -63,19 +56,25 @@ body:not(.dark) li{background:#fafafa;}
 .delete{background:#ff4757;}
 .stats{text-align:center;margin-top:10px;}
 footer{margin-top:auto;padding:20px;text-align:center;font-size:14px;}
-.toggle-dark{position:fixed;top:15px;right:20px;background:var(--accent);border:none;border-radius:50%;width:46px;height:46px;color:white;font-size:18px;cursor:pointer;}
+.toggle-dark{position:fixed;top:15px;right:20px;background:var(--accent);border:none;border-radius:50%;
+width:46px;height:46px;color:white;font-size:18px;cursor:pointer;}
 /* Giriş ekranı */
-#welcome{position:fixed;top:0;left:0;width:100%;height:100%;
-background:rgba(0,0,0,.7);
-display:flex;align-items:center;justify-content:center;z-index:9999;color:white;}
+#welcome{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;
+  z-index:9999;color:white;
+}
 .login-box{
-  background:#fff;color:#333;padding:25px;border-radius:15px;width:90%;max-width:350px;box-shadow:0 5px 25px rgba(0,0,0,.3);
-  text-align:center;
+  background:#fff;color:#333;padding:25px;border-radius:15px;width:90%;max-width:350px;
+  box-shadow:0 5px 25px rgba(0,0,0,.3);text-align:center;
 }
 .login-box input{width:100%;margin-bottom:10px;padding:10px;border-radius:8px;border:1px solid #ccc;}
 .login-box button{width:100%;}
+#loginMsg{min-height:18px;}
 .heart-pop{position:fixed;font-size:28px;animation:pop 1s ease-out forwards;pointer-events:none;}
 @keyframes pop{0%{transform:scale(.3) translateY(0);opacity:1;}100%{transform:scale(1.4) translateY(-80px);opacity:0;}}
+.fadeOut{animation:fadeOut .4s ease forwards;}
+@keyframes fadeOut{from{opacity:1;}to{opacity:0;}}
 @media(max-width:480px){
   .container{padding:15px;}
   input,select,button{font-size:14px;}
@@ -88,7 +87,7 @@ display:flex;align-items:center;justify-content:center;z-index:9999;color:white;
 
 <body>
 
-<!-- Şifreli giriş ekranı -->
+<!-- Şifreli giriş -->
 <div id="welcome">
   <div class="login-box">
     <h2>Giriş Yap</h2>
@@ -145,44 +144,33 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-/* ---- GİRİŞ ---- */
-const users = {
-  "Lara":"060326",
-  "Mert":"060326"
-};
-
 let activeUser = "";
+const users = { "Lara":"060326", "Mert":"060326" };
 
-document.getElementById("loginBtn").onclick = ()=>{
-  const u = document.getElementById("username").value.trim();
-  const p = document.getElementById("password").value.trim();
-  const msg = document.getElementById("loginMsg");
-
-  if(users[u] && users[u] === p){
-    // Başarılı giriş
-    document.getElementById("welcome").style.display = "none";
-    activeUser = u;
-
-    // Lara ise özel efekt
-    if(u === "Lara"){
-      document.getElementById("titleEmoji").innerHTML = "💗 Lara & Mert";
-      heartExplosion();
-    }
-
-    msg.textContent = "";
-  } else {
-    msg.textContent = "Hatalı kullanıcı veya şifre!";
-  }
-};
-
-
-let activeUser="";
+/* ---- GİRİŞ ---- */
+window.addEventListener("DOMContentLoaded", ()=>{
+  const loginBtn=document.getElementById("loginBtn");
+  loginBtn.addEventListener("click", ()=>{
+    const u=document.getElementById("username").value.trim();
+    const p=document.getElementById("password").value.trim();
+    const msg=document.getElementById("loginMsg");
+    if(users[u] && users[u]===p){
+      document.getElementById("welcome").classList.add("fadeOut");
+      setTimeout(()=>{document.getElementById("welcome").style.display="none";},400);
+      activeUser=u;
+      if(u==="Lara"){
+        document.getElementById("titleEmoji").innerHTML="💗 Lara & Mert";
+        heartExplosion();
+      }
+    } else msg.textContent="Hatalı kullanıcı veya şifre!";
+  });
+});
 
 /* ---- KARANLIK MOD ---- */
 const darkBtn=document.getElementById("darkBtn");
 darkBtn.onclick=()=>{
   document.body.classList.toggle("dark");
-  darkBtn.textContent=document.body.classList.contains("dark") ? "🌙" : "☀️";
+  darkBtn.textContent=document.body.classList.contains("dark")?"🌙":"☀️";
 };
 
 /* ---- HEART EFFECT ---- */
@@ -210,14 +198,13 @@ document.getElementById("addBtn").onclick=()=>{
   document.getElementById("taskInput").value="";
 };
 
-/* ---- GÖREVLERİ YAZDIR ---- */
+/* ---- GÖREVLER ---- */
 function render(tasks){
   const list=document.getElementById("taskList");
   const stats=document.getElementById("stats");
   list.innerHTML="";
 
-  const all = Object.entries(tasks || {}).map(([key,val])=>({key,...val}));
-  // Tarihe göre sıralama (boş tarih sona)
+  const all=Object.entries(tasks||{}).map(([k,v])=>({key:k,...v}));
   all.sort((a,b)=>{
     if(!a.date) return 1; if(!b.date) return -1;
     return new Date(a.date)-new Date(b.date);
@@ -230,13 +217,14 @@ function render(tasks){
     const left=document.createElement("div");
     left.className="task";
     if(task.done) left.classList.add("completed");
-    const t=document.createElement("span");
-    t.textContent=task.text;
+    const span=document.createElement("span");
+    span.textContent=task.text;
     const meta=document.createElement("div");
     meta.className="meta";
-    meta.textContent=`Ekleyen: ${task.user} • Tarih: ${task.date || '—'}`;
-    left.appendChild(t);left.appendChild(meta);
+    meta.textContent=`Ekleyen: ${task.user} • Tarih: ${task.date||"—"}`;
+    left.appendChild(span);left.appendChild(meta);
     const right=document.createElement("div");
+    right.className="right";
     const check=document.createElement("input");
     check.type="checkbox";check.checked=task.done;
     check.onclick=()=>toggleTask(task.key);
@@ -247,18 +235,19 @@ function render(tasks){
     li.appendChild(left);li.appendChild(right);
     list.appendChild(li);
   });
-  stats.textContent=`Toplam: ${all.length} • Tamamlanan: ${done}`;
+  stats.textContent=`Toplam: ${all.length} | Tamamlanan: ${done}`;
 }
 
 function toggleTask(key){
   const doneRef=ref(db,"tasks/"+key+"/done");
-  get(doneRef).then(s=>set(doneRef,!s.val()));
+  get(doneRef).then(snap=>set(doneRef,!snap.val()));
 }
-
 onValue(ref(db,"tasks"),snap=>render(snap.val()));
 </script>
 </body>
 </html>
+
+
 
 
 
