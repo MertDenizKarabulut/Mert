@@ -2,184 +2,139 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lara & Mert Yapılacaklar</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap)" rel="stylesheet">
 
 <style>
+:root{
+  --bg: linear-gradient(135deg,#ff9a9e,#fad0c4);
+  --card-bg: white;
+  --text-color: #333;
+  --accent:#ff6b81;
+}
+body.dark{
+  --bg: #121212;
+  --card-bg:#1E1E1E;
+  --text-color:#EEE;
+  --accent:#ff99a4;
+}
 html, body{margin:0;padding:0;width:100%;height:100%;}
 body{
   font-family:'Poppins',sans-serif;
   min-height:100vh;
-  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+  background:var(--bg);
+  color:var(--text-color);
   display:flex;
   flex-direction:column;
   align-items:center;
+  transition:.3s background;
 }
-
-.header{margin-top:30px;text-align:center;color:#333;padding:0 20px;}
-
+.header{margin-top:25px;text-align:center;}
 .container{
   margin-top:20px;
-  background:white;
-  width:550px;
-  max-width:95%;
+  background:var(--card-bg);
+  width:95%;
+  max-width:520px;
   padding:20px;
   border-radius:22px;
-  box-shadow:0 15px 40px rgba(0,0,0,0.15);
+  box-shadow:0 10px 30px rgba(0,0,0,0.15);
 }
-
-.title{text-align:center;margin-bottom:15px;font-size:26px;}
-
+.title{text-align:center;margin-bottom:15px;font-size:24px;}
 .controls{display:flex;flex-direction:column;gap:10px;margin-bottom:15px;}
 .row{display:flex;gap:10px;flex-wrap:wrap;}
-
 input, select{
-  padding:15px;
-  border-radius:12px;
-  border:1px solid #ccc;
-  font-size:15px;
-  flex:1;
+  padding:12px;border-radius:10px;border:1px solid #ccc;font-size:15px;flex:1;outline:none;
 }
-
 button{
-  padding:15px;
-  border:none;
-  border-radius:12px;
-  background:#ff6b81;
-  color:white;
-  font-weight:600;
-  cursor:pointer;
-  font-size:15px;
+  padding:12px 18px;border:none;border-radius:10px;
+  background:var(--accent);color:white;font-weight:600;cursor:pointer;font-size:15px;
 }
 button:active{transform:scale(.97);}
-
 ul{list-style:none;margin:0;padding:0;}
-
 li{
-  background:#fafafa;
-  padding:14px;
-  border-radius:14px;
-  margin-bottom:10px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  background:rgba(255,255,255,0.05);
+  padding:12px;margin-bottom:10px;
+  border-radius:12px;display:flex;justify-content:space-between;align-items:center;
 }
-
-.meta{font-size:12px;color:#777;}
+body:not(.dark) li{background:#fafafa;}
+.meta{font-size:12px;color:#888;}
 .completed span{text-decoration:line-through;color:#aaa;}
 .delete{background:#ff4757;}
 .stats{text-align:center;margin-top:10px;}
-
-footer{margin-top:auto;padding:20px;text-align:center;}
-
+footer{margin-top:auto;padding:20px;text-align:center;font-size:14px;}
+.toggle-dark{position:fixed;top:15px;right:20px;background:var(--accent);border:none;border-radius:50%;width:46px;height:46px;color:white;font-size:18px;cursor:pointer;}
 /* Giriş ekranı */
-#welcome{
-  position:fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  background:rgba(0,0,0,0.55);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
-}
-.welcome-box{
-  background:white;
-  padding:35px;
-  border-radius:20px;
-  width:80%;
-  max-width:350px;
+#welcome{position:fixed;top:0;left:0;width:100%;height:100%;
+background:rgba(0,0,0,.7);
+display:flex;align-items:center;justify-content:center;z-index:9999;color:white;}
+.login-box{
+  background:#fff;color:#333;padding:25px;border-radius:15px;width:90%;max-width:350px;box-shadow:0 5px 25px rgba(0,0,0,.3);
   text-align:center;
-  box-shadow:0 10px 40px rgba(0,0,0,0.2);
-  animation:fadeIn .6s ease;
 }
-@keyframes fadeIn{
-  from{opacity:0; transform:scale(0.8);}
-  to{opacity:1; transform:scale(1);}
-}
-
-.profile-select{
-  display:flex;
-  justify-content:space-around;
-  margin-top:20px;
-}
-.profile-btn{
-  background:#ff6b81;
-  padding:12px 20px;
-  border-radius:12px;
-  color:#fff;
-  cursor:pointer;
-  font-weight:600;
-}
-
-/* Lara kalp efekti */
-.heart-pop{
-  position:fixed;
-  font-size:30px;
-  animation:pop 1s ease-out forwards;
-  pointer-events:none;
-}
-@keyframes pop{
-  0%{transform:scale(.3) translateY(0);opacity:1;}
-  100%{transform:scale(1.4) translateY(-80px);opacity:0;}
+.login-box input{width:100%;margin-bottom:10px;padding:10px;border-radius:8px;border:1px solid #ccc;}
+.login-box button{width:100%;}
+.heart-pop{position:fixed;font-size:28px;animation:pop 1s ease-out forwards;pointer-events:none;}
+@keyframes pop{0%{transform:scale(.3) translateY(0);opacity:1;}100%{transform:scale(1.4) translateY(-80px);opacity:0;}}
+@media(max-width:480px){
+  .container{padding:15px;}
+  input,select,button{font-size:14px;}
+  .title{font-size:20px;}
+  li{flex-direction:column;align-items:flex-start;gap:4px;}
+  .right{align-self:flex-end;}
 }
 </style>
 </head>
 
 <body>
 
-<!-- PROFİL SEÇİMLİ GİRİŞ EKRANI -->
+<!-- Şifreli giriş ekranı -->
 <div id="welcome">
-  <div class="welcome-box">
-    <h2>Profil Seç</h2>
-    <p>Kiminle giriş yapıyorsun?</p>
+  <div class="login-box">
+    <h2>Giriş Yap</h2>
+    <input id="username" placeholder="Kullanıcı (Lara / Mert)">
+    <input id="password" type="password" placeholder="Şifre">
+    <button id="loginBtn">Giriş</button>
+    <p id="loginMsg" style="color:red;font-size:13px;"></p>
+  </div>
+</div>
 
-    <div class="profile-select">
-      <div class="profile-btn" onclick="selectProfile('Mert')">Mert</div>
-      <div class="profile-btn" onclick="selectProfile('Lara')">Lara</div>
+<button class="toggle-dark" id="darkBtn">☀️</button>
+
+<div class="header">
+  <h1 id="titleEmoji">💜 Lara & Mert</h1>
+  <p>Birlikte yapılacaklar listesi</p>
+</div>
+
+<div class="container">
+  <div class="title">Etkinlik Ekle</div>
+  <div class="controls">
+    <div class="row">
+      <input id="taskInput" placeholder="Etkinlik yaz...">
+      <select id="userSelect">
+        <option value="Mert">Mert</option>
+        <option value="Lara">Lara</option>
+      </select>
+    </div>
+    <div class="row">
+      <input type="date" id="dateInput">
+      <button id="addBtn">Ekle</button>
     </div>
   </div>
+  <ul id="taskList"></ul>
+  <div class="stats" id="stats"></div>
 </div>
 
-<div class="header" id="header" style="display:none;">
-<h1 id="titleEmoji">💜 Lara & Mert</h1>
-<p>Birlikte yapılacaklar listesi</p>
-</div>
-
-<div class="container" id="main" style="display:none;">
-<div class="title">Etkinlik Ekle</div>
-
-<div class="controls">
-  <div class="row">
-    <input id="taskInput" placeholder="Etkinlik yaz...">
-    <select id="userSelect">
-      <option value="Mert">Mert</option>
-      <option value="Lara">Lara</option>
-    </select>
-  </div>
-
-  <div class="row">
-    <input type="date" id="dateInput">
-    <button id="addBtn">Ekle</button>
-  </div>
-</div>
-
-<ul id="taskList"></ul>
-<div class="stats" id="stats"></div>
-</div>
-
-<footer id="footer" style="display:none;">Laracım seni çok seviyorum</footer>
-
+<footer>Laracım seni çok seviyorum 💖</footer>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-import { getDatabase, ref, set, onValue, remove, get, push } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
+import { initializeApp } from "[gstatic.com](https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js)";
+import { getDatabase, ref, set, onValue, remove, get, push } from "[gstatic.com](https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js)";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAKIRNUmXwey9nddXFLhWpEfPK_C7pQgz0",
   authDomain: "mert-lara-todolist.firebaseapp.com",
-  databaseURL: "https://mert-lara-todolist-default-rtdb.firebaseio.com",
+  databaseURL: "[mert-lara-todolist-default-rtdb.firebaseio.com](https://mert-lara-todolist-default-rtdb.firebaseio.com)",
   projectId: "mert-lara-todolist",
   storageBucket: "mert-lara-todolist.appspot.com",
   messagingSenderId: "928762008645",
@@ -190,29 +145,37 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-let activeUser = null;
+/* ---- GİRİŞ ---- */
+const users = {
+  "Lara":"060326"
+  "Mert":"060326"
+};
 
-/* -------- PROFİL GİRİŞİ -------- */
-window.selectProfile = function(user){
-  activeUser = user;
-
-  document.getElementById("welcome").style.display="none";
-  document.getElementById("header").style.display="block";
-  document.getElementById("main").style.display="block";
-  document.getElementById("footer").style.display="block";
-
-  document.getElementById("userSelect").value = user;
-
-  if(user === "Lara"){
-    document.getElementById("titleEmoji").innerHTML = "💗 Lara & Mert";
-    heartExplosion();
+document.getElementById("loginBtn").onclick = ()=>{
+  const u=document.getElementById("username").value.trim();
+  const p=document.getElementById("password").value.trim();
+  if(users[u] && users[u]===p){
+    document.getElementById("welcome").style.display="none";
+    activeUser=u;
+    if(u==="Lara"){heartExplosion();document.getElementById("titleEmoji").innerHTML="💗 Lara & Mert";}
+  }else{
+    document.getElementById("loginMsg").textContent="Hatalı kullanıcı veya şifre!";
   }
 };
 
-/* Baslangıç kalp patlaması */
+let activeUser="";
+
+/* ---- KARANLIK MOD ---- */
+const darkBtn=document.getElementById("darkBtn");
+darkBtn.onclick=()=>{
+  document.body.classList.toggle("dark");
+  darkBtn.textContent=document.body.classList.contains("dark") ? "🌙" : "☀️";
+};
+
+/* ---- HEART EFFECT ---- */
 function heartExplosion(){
-  for(let i=0;i<30;i++){
-    let h = document.createElement("div");
+  for(let i=0;i<25;i++){
+    let h=document.createElement("div");
     h.className="heart-pop";
     h.textContent="❤️";
     h.style.left=(window.innerWidth/2)+"px";
@@ -222,128 +185,69 @@ function heartExplosion(){
   }
 }
 
-/* Bildirim izni */
-if ("Notification" in window) {
-  Notification.requestPermission();
-}
-
-/* Lara görev ekleyince tek kalp */
-function heartPop(){
-  const h=document.createElement("div");
-  h.className="heart-pop";
-  h.textContent="❤️";
-  h.style.left=(window.innerWidth/2)+"px";
-  h.style.top=(window.innerHeight/2)+"px";
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),1000);
-}
-
-/* Yaklaşan görev bildirimi */
-function checkNotifications(tasks){
-  const now = new Date();
-
-  Object.values(tasks || {}).forEach(task=>{
-    if(!task.date) return;
-
-    let diff = (new Date(task.date) - now)/(1000*60*60*24);
-
-    if(diff <= 1 && diff > 0){
-      if(Notification.permission==="granted"){
-        new Notification("Yaklaşan Görev",{
-          body:`${task.text} (${task.user}) yarın!`,
-          icon:"https://cdn-icons-png.flaticon.com/512/833/833472.png"
-        });
-      }
-    }
-  });
-}
-
-/* Görev ekleme */
-document.getElementById("addBtn").onclick = () => {
-  const text = document.getElementById("taskInput").value.trim();
-  const user = document.getElementById("userSelect").value;
-  const date = document.getElementById("dateInput").value;
-
+/* ---- GÖREV EKLE ---- */
+document.getElementById("addBtn").onclick=()=>{
+  const text=document.getElementById("taskInput").value.trim();
+  const user=document.getElementById("userSelect").value;
+  const date=document.getElementById("dateInput").value;
   if(!text) return;
-
-  const newRef = push(ref(db,"tasks"));
+  const newRef=push(ref(db,"tasks"));
   set(newRef,{text,user,date,done:false});
-
-  if(user==="Lara") heartPop();
-
+  if(user==="Lara") heartExplosion();
   document.getElementById("taskInput").value="";
 };
 
-/* Görevleri çiz */
+/* ---- GÖREVLERİ YAZDIR ---- */
 function render(tasks){
   const list=document.getElementById("taskList");
   const stats=document.getElementById("stats");
-
   list.innerHTML="";
 
+  const all = Object.entries(tasks || {}).map(([key,val])=>({key,...val}));
+  // Tarihe göre sıralama (boş tarih sona)
+  all.sort((a,b)=>{
+    if(!a.date) return 1; if(!b.date) return -1;
+    return new Date(a.date)-new Date(b.date);
+  });
+
   let done=0;
-
-  Object.entries(tasks || {}).forEach(([key,task])=>{
+  all.forEach(task=>{
     if(task.done) done++;
-
     const li=document.createElement("li");
-
-    const t=document.createElement("div");
-    t.className="task";
-    if(task.done) t.classList.add("completed");
-
-    const text=document.createElement("span");
-    text.textContent=task.text;
-
+    const left=document.createElement("div");
+    left.className="task";
+    if(task.done) left.classList.add("completed");
+    const t=document.createElement("span");
+    t.textContent=task.text;
     const meta=document.createElement("div");
     meta.className="meta";
     meta.textContent=`Ekleyen: ${task.user} • Tarih: ${task.date || '—'}`;
-
-    t.appendChild(text);
-    t.appendChild(meta);
-
+    left.appendChild(t);left.appendChild(meta);
     const right=document.createElement("div");
-
     const check=document.createElement("input");
-    check.type="checkbox";
-    check.checked=task.done;
-    check.onclick=()=>toggleTask(key);
-
+    check.type="checkbox";check.checked=task.done;
+    check.onclick=()=>toggleTask(task.key);
     const del=document.createElement("button");
-    del.textContent="Sil";
-    del.className="delete";
-    del.onclick=()=>remove(ref(db,"tasks/"+key));
-
-    right.appendChild(check);
-    right.appendChild(del);
-
-    li.appendChild(t);
-    li.appendChild(right);
-
+    del.textContent="Sil";del.className="delete";
+    del.onclick=()=>remove(ref(db,"tasks/"+task.key));
+    right.appendChild(check);right.appendChild(del);
+    li.appendChild(left);li.appendChild(right);
     list.appendChild(li);
   });
-
-  stats.textContent=`Toplam görev: ${Object.keys(tasks || {}).length} • Tamamlanan: ${done}`;
-
-  checkNotifications(tasks);
+  stats.textContent=`Toplam: ${all.length} • Tamamlanan: ${done}`;
 }
 
-/* Tamamlandı değişimi */
 function toggleTask(key){
-  const doneRef = ref(db,"tasks/"+key+"/done");
-  get(doneRef).then(snap=>{
-    set(doneRef,!snap.val());
-  });
+  const doneRef=ref(db,"tasks/"+key+"/done");
+  get(doneRef).then(s=>set(doneRef,!s.val()));
 }
 
-/* Dinleyici */
-onValue(ref(db,"tasks"),snap=>{
-  render(snap.val());
-});
+onValue(ref(db,"tasks"),snap=>render(snap.val()));
 </script>
-
 </body>
 </html>
+
+
 
 
 
